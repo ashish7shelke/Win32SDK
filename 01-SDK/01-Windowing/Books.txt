@@ -1,0 +1,35 @@
+1) Charles Petzold - Windows Programming
+
+2) Adavanced Windows -> Application Programming in Windows using Cpp -> Windows prograaming via Cpp -> Jefrey Richter
+
+3) Windows Internals -> David Solomon & Mark Russiwitch
+
+4) Windows Internals -> Matt Piatric
+
+5) Windows 98 Programming -> Herbert Sheild
+
+6) Windows sytem programming -> Baker
+
+7) Windows 95 system programmign -> Walter Onney
+
+8) Windows NT device driver -> Visca Rola & Meson
+
+9) Windows Driver Model -> Walter Onney
+
+10) Windows Kernel Programming -> Pavel Ysifowitch
+
+11) Windows NT device driver -> Bekker
+
+12) Windows server sided development -> JP 
+
+13) Inside windows network programming -> Hones & Ohlund
+
+14) Windows Socket Programming -> Quinn & Shoot
+
+C++
+1) Bjarne Stroustrups
+2) C++ Programming Primaer -> Stanley Lipman
+3) Design & Evolustion of C++ -> Margaret &
+4) Inside Cpp object model -> Stanely Lipmann
+5) Thinking in C++ -> Bruce Eckel
+6) C++ Complete REfrence -< Herber 
