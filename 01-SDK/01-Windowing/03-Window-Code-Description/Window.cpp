@@ -94,29 +94,40 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	RegisterClassEx(&wndClass); // Register custom window class, return value unique un-mutable string called as Atom
 
 	//Creating the Window
-	hwnd = CreateWindow(szAppName,
-						TEXT("AGS"),
-						WS_OVERLAPPEDWINDOW,
-						CW_USEDEFAULT,
-						CW_USEDEFAULT,
-						CW_USEDEFAULT,
-						CW_USEDEFAULT,
-						NULL,
-						NULL,
-						hInstance,
-						NULL);
+	hwnd = CreateWindow(szAppName,		//Window name, here it is custom windoe name. Predifined window can be used as dialogue box
+						TEXT("AGS"),	// Windows caption bar text e.g. Notepad. TEXT convert normal text to unicode
+						WS_OVERLAPPEDWINDOW, //This window will be on top of the screen
+											 /// WS_OVERLAPPED | WS_SYSMENU | WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE
+						CW_USEDEFAULT,		// Rectangle Left TOP X - Default 
+						CW_USEDEFAULT,		// Rectangle Left TOP Y
+						CW_USEDEFAULT,		// Rectangle Width
+						CW_USEDEFAULT,		// Rectangle Height
+						NULL,				// Which is a parent window handle - Default is Desktop window handle - NULL indicates take desktop window as parent
+						NULL,				// Menu handle
+						hInstance,			// Instance handle
+						NULL);				// Anything extra we want to provide to window, give it in this parameter
 
 	//Show Window
-	ShowWindow(hwnd, iCmdShow);
+	ShowWindow(hwnd, iCmdShow);	// Show window, how to show - by iCmdShow e.g SW_MAXIMIZE. 
 
 	//Update the Window
-	UpdateWindow(hwnd);
+	UpdateWindow(hwnd);	// It paints window's background (rectangular area - Client Area) using brush 
 
 	//Message Loop
-	while (GetMessage(&msg, NULL, 0, 0))
+	/*
+	///  Some activity by user on window.
+	///  OS gets this activity/Event and gets to know which window caption is active.
+	///  OS takes MSG struct and fills it with event with unique msg id. (hwnd, uint imsg, wparam, lparam, time, co-ordinate) 
+	///  OS keeps this msg in message pool. Such multiple MSGs are kept in message pool
+	///  Every window has its message queue (as like straw). This queue filled with windows related messages
+	///  Window translates this msg, and forward this msg to WndProc
+	///  This getMessage, translate and dispatch happen in the while loop called as message loop
+	*/
+	while (GetMessage(&msg, NULL, 0, 0)) //If no message then program stucks here
+	// When there WM_QUIT message GetMessage returns false
 	{
 		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		DispatchMessage(&msg); //Forward this msg to WndProc
 	}
 
 	return ((int)msg.wParam);
@@ -125,12 +136,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	//Local Variable Declarations
+
+	// Local static is more preffered than global variable declaration
 	TCHAR str[255];
 
 	//Code
 	switch (iMsg)
 	{
-	case WM_CREATE:
+	case WM_CREATE: //EVENT_DELIGATE - .net / LISTERNER - JAVa
+	// Its always first message to wndproc
+	// This comes directly from OS. Not from messsage loop. This message is not posted
+	// This message is received only once
+	// If we need something lifetime of window. We should create those things in WM_CREATE message
 		wsprintf(str, TEXT("WM_CREATE Message is Received"));
 		MessageBox(hwnd, str, TEXT("Message"), MB_OK);
 		break;
