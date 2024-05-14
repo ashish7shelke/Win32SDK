@@ -1,6 +1,6 @@
 //Header Files
 #include <windows.h>
-
+#include "Window.h"
 //Global Function Declarations
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -33,11 +33,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	wndClass.lpfnWndProc = WndProc;
 	wndClass.hInstance = hInstance;
 	wndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-	wndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wndClass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(MYICON));
 	wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndClass.lpszClassName = szAppName;
 	wndClass.lpszMenuName = NULL;
-	wndClass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+	wndClass.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(MYICON));
 
 	//Registration of WndClassEx
 	RegisterClassEx(&wndClass);

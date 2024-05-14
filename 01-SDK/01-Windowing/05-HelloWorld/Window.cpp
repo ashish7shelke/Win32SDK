@@ -1,6 +1,6 @@
 //Header Files
 #include <windows.h>
-
+#include "Window.h"
 //Global Function Declarations
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -33,11 +33,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	wndClass.lpfnWndProc = WndProc;
 	wndClass.hInstance = hInstance;
 	wndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-	wndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wndClass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(MYICON));
 	wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndClass.lpszClassName = szAppName;
 	wndClass.lpszMenuName = NULL;
-	wndClass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+	wndClass.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(MYICON));
 
 	//Registration of WndClassEx
 	RegisterClassEx(&wndClass);
@@ -74,44 +74,45 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	//Local Variable Declarations
-	TCHAR str[255];
+	TCHAR str[255] = TEXT("Hello World !!!");
+	HDC hdc;
+	PAINTSTRUCT ps;
+	RECT rc;
 
 	//Code
 	switch (iMsg)
 	{
-	case WM_CREATE:
-		wsprintf(str, TEXT("WM_CREATE Message is Received"));
-		MessageBox(hwnd, str, TEXT("Message"), MB_OK);
+	case WM_PAINT: // OS sent whenever there Window repaint/redraw is needed. It is SW message
+		// 8 Situation when OS wants to repaint window
+		// 1) Window first time created and has to shown -> whole OS is responsible 
+		// 2) Whenever we move window with caption bar -> whole OS is responsible
+		// 3) Whenever window menu is requested, after menu disapper, repaint is done to redraw coverred area -> whole OS is responsible
+		// 4) When draggin other window over window -> whole OS is responsible
+		// 5) Whenever mouse cursor moved over window -> whole OS is responsible
+		// 6) Resize -> Its developer responsibility
+		// 7) Whenever window is covered by other window -> while uncovering window repaint is done -> Its developer responsibility
+		// 8) Whenever window is scrolled -> Its developer responsibility
+		// Developer cant send this message
+		// With Win32 API developer can request for paint
+		// UpdateWindow this msg sent - InvalidateRect function posts 
+		// All HW event come through message loop. but SW messages not compulsary to come from message loop
+		
+		// Device context - structure to represent graphics device (GDI - Graphic Device Interface) is specialist to paint on window
+		// HDC - HAndle to device context
+		// There are 5 ways to get handle
+		// 1) CreateDC 2) GetWindowDc 3) GetDc 4) CreateCompatibleDc 5) BeginPaint
+		// 
+		GetClientRect(hwnd, &rc);
+		hdc = BeginPaint(hwnd, &ps);
+		SetBkColor(hdc, RGB(0, 0, 0));
+		SetTextColor(hdc, RGB(0, 255, 0));
+		DrawText(hdc, str, -1, &rc, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+		EndPaint(hwnd, &ps);
 		break;
-
-	case WM_KEYDOWN:
-		wsprintf(str, TEXT("WM_KEYDOWN Message is Received"));
-		MessageBox(hwnd, str, TEXT("Message"), MB_OK);
-		break;
-
-	case WM_LBUTTONDOWN:
-		wsprintf(str, TEXT("WM_LBUTTONDOWN Message is Received"));
-		MessageBox(hwnd, str, TEXT("Message"), MB_OK);
-		break;
-
-	case WM_RBUTTONDOWN:
-		wsprintf(str, TEXT("WM_RBUTTONDOWN Message is Received"));
-		MessageBox(hwnd, str, TEXT("Message"), MB_OK);
-		break;
-
-	/*case WM_SETFOCUS:
-		wsprintf(str, TEXT("WM_SETFOCUS Message is Received"));
-		MessageBox(hwnd, str, TEXT("Message"), MB_OK);
-		break;
-
-	case WM_KILLFOCUS:
-		wsprintf(str, TEXT("WM_KILLFOCUS Message is Received"));
-		MessageBox(hwnd, str, TEXT("Message"), MB_OK);
-		break;*/
 
 	case WM_DESTROY:
-		wsprintf(str, TEXT("WM_DESTROY Message is Received"));
-		MessageBox(hwnd, str, TEXT("Message"), MB_OK);
+		//wsprintf(str, TEXT("WM_DESTROY Message is Received"));
+		//MessageBox(hwnd, str, TEXT("Message"), MB_OK);
 		//PostQuitMessage(0); //On runtime process text memory doesnt overwritten
 		// Thats why text is shared between multiple process.
 		PostMessage(hwnd, WM_QUIT, 0, 0L);

@@ -3,6 +3,10 @@
 
 //Global Function Declarations
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+/*
+/// Every message has different WPARAM & LPARAM
+/// OS 
+*/
 
 /*
 * Though looks nothing inside function, following 3 things are there
@@ -139,7 +143,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 	// Local static is more preffered than global variable declaration
 	TCHAR str[255];
-
+	INT num1, num2, num3;
+		num1 = 25;
+		num2 = 75;
+		num3 = num1 + num2;
 	//Code
 	switch (iMsg)
 	{
@@ -148,8 +155,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	// This comes directly from OS. Not from messsage loop. This message is not posted
 	// This message is received only once
 	// If we need something lifetime of window. We should create those things in WM_CREATE message
-		wsprintf(str, TEXT("WM_CREATE Message is Received"));
-		MessageBox(hwnd, str, TEXT("Message"), MB_OK);
+
+		//wsprintf(str, TEXT("WM_CREATE Message is Received"));
+		wsprintf(str, TEXT("Sum of %d + %d = %d"), num1, num2, num3);
+		MessageBox(hwnd, str, TEXT("Message"), MB_OKCANCEL | MB_ICONINFORMATION );
+		// Message Box is dialog box.
+		// Message box is predefined window
+
+		// Which button to be displayed | default button | which Icon want to display | style/modality of message box | some other option
+		// MB_OK | MB_ICONINFORMATION | MB_DEFBUTTON1 | MB-APPLMODAL | MB_TOPMOST
 		break;
 
 	case WM_KEYDOWN:
