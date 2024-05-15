@@ -1,0 +1,93 @@
+** MultiTasking **
+
+Running multiple tasks concurrently.
+
+1) Process based multi tasking - Multiprocessing
+
+2) Thread based multi tasking - Multithreading
+
+When loader takes copy of copy of executable and keep on main memory (RAM)
+As program starts executing from entry point function - Process is created
+Running instance of program is called Process.
+
+Creation - Execution - Termination 
+
+Each process has at least on thread.
+
+Each process has execution unit (structural / functional) is thread.
+Process is just like a container, thread is running entity in that content.
+
+Mutli processing means multiple processes.
+
+Multiple task handled by multiple threads then called multithreading.
+    One process runs one function concurrently.
+Multiple task handled by multiple processes then called multiprocessing.
+
+Processes are expensive, Threads are not.
+Any OS fevers multithreading over multiprocessing.
+
+Thread is part of a same program, works as execution unit of program. 
+
+Without concurrancy word there is no multitasking. 
+
+--------------------------------------------------------
+Fork + Exec -> Full  process
+Only Process -> Light weight process
+
+In linux there is no concept of thread. Thread is nothing but special process called as light weight process.
+pthread is library in linux. These library function creates light weight process. __clone function is called while pthreadCreate.
+When clone behaves like as process -> 
+when clone is behaves like a light weight process ->
+----------------------------------------------------------
+
+When to use multitasking?
+    When you want to run big task and divide this job in chunks.
+    Generally threads should be independent.
+    Threads are very powerful and synchronization is essential.
+    Robert Weiner - Win32 Threading
+Multiprocessing - 
+Multithreading
+    Multi threading Parallel processing, resources are less/efficiently used
+    System power is used efficiently
+
+    Disadvantage:   Threading control is in hand of OS. OS can terminate thread without intimating program.
+                    Thread synchronization is major challenge.
+                    Over synchronization causes dead lock as well.
+
+User feels like process/threads are running concurrently but actually it runs only one thread at once. 
+
+Thread is resource.
+User asked for      Os provided
+Many to             one
+    4               1       --> If any user thread stuck in infinite loop then all threads blocked (Java threads work on this skim)
+One to              one
+    4               4       --> If any thread blocks other thread runs fine. This is first model linux provided (Performance hight, resources are highly used)
+Many to             many
+    4               <4      --> 
+
+Threads are 2 types -> Software thread and Hardware thread
+Hardware thread come from P4 (Hyper threaded model)
+
+-Every thread is part of same program, Thread is path of asynchronous execution.
+-Hence threads shares memory of parent process/thread.
+-Every thread has independent stack, 
+-Every thread has own CPU quantum. (Minimum 20ms cpu time is given to thread)
+-Every thread has its own message queue (Windows)
+-Thread share files opened by parent process. (If parent process opened files before thread is created)
+--Any thread can kill any other thread (one process thread can kill any other thread)
+--Parent kill any child thread anytime
+--OS can kill any thread anytime without intimating
+- But as possible as dont kill thread explicitlly, lets thread die by completing task
+- Every is independent entity if used judicially.
+* By default, in windows, if process dies, its all thread get kills with process.
+    We can change this behavior to allow windows thread to behave like linux thread. Where threads continue its life even process dies.
+
+TLS - Thread Local Storage
+
+
+
+
+
+
+
+
